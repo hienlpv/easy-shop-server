@@ -36,7 +36,7 @@ router.get(`/`, async (req, res) => {
         filter = { category: req.query.categories.split(',') };
     }
 
-    const productList = await Product.find(filter).populate('category');
+    const productList = await Product.find(filter).populate('category', 'id');
 
     if (!productList) {
         res.status(500).json({ success: false });
@@ -132,12 +132,10 @@ router.delete('/:id', (req, res) => {
     Product.findByIdAndRemove(req.params.id)
         .then((product) => {
             if (product) {
-                return res
-                    .status(200)
-                    .json({
-                        success: true,
-                        message: 'the product is deleted!',
-                    });
+                return res.status(200).json({
+                    success: true,
+                    message: 'the product is deleted!',
+                });
             } else {
                 return res
                     .status(404)
