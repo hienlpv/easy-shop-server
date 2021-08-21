@@ -62,30 +62,27 @@ router.post(`/` /*, uploadOptions.single('image')*/, async (req, res) => {
 
     // const fileName = file.filename;
     // const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
-    try {
-        let product = new Product({
-            name: req.body.name,
-            description: req.body.description,
-            richDescription: req.body.richDescription,
-            // image: `${basePath}${fileName}`, // "http://localhost:3000/public/upload/image-2323232"
-            images: req.body.images,
-            brand: req.body.brand,
-            price: req.body.price,
-            category: req.body.category,
-            countInStock: req.body.countInStock,
-            rating: req.body.rating,
-            numReviews: req.body.numReviews,
-            isFeatured: req.body.isFeatured,
-        });
 
-        product = await product.save();
+    let product = new Product({
+        name: req.body.name,
+        description: req.body.description,
+        richDescription: req.body.richDescription,
+        // image: `${basePath}${fileName}`, // "http://localhost:3000/public/upload/image-2323232"
+        images: req.body.images,
+        brand: req.body.brand,
+        price: req.body.price,
+        category: req.body.category,
+        countInStock: req.body.countInStock,
+        rating: req.body.rating,
+        numReviews: req.body.numReviews,
+        isFeatured: req.body.isFeatured,
+    });
 
-        // if (!product) return res.status(500).send('The product cannot be created');
+    product = await product.save();
 
-        res.send(product);
-    } catch (error) {
-        res.json({ message: 'The Product cannot be created', error: error });
-    }
+    if (!product) return res.status(500).send('The product cannot be created');
+
+    res.send(product);
 });
 
 router.put('/:id' /*, uploadOptions.single('image')*/, async (req, res) => {
