@@ -42,9 +42,9 @@ router.post('/', async (req, res) => {
 
             newOrderItem = await newOrderItem.save();
 
-            let product = Product.findById(orderItem.product);
+            let product = await Product.findById(orderItem.product);
             await Product.findByIdAndUpdate(orderItem.product, {
-                countInStock: product.countInStock - 1,
+                countInStock: product.countInStock - orderItem.quantity,
             });
 
             return newOrderItem._id;
