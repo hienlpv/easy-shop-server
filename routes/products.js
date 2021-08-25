@@ -84,7 +84,9 @@ router.post(`/` /*, uploadOptions.single('image')*/, async (req, res) => {
 
     if (!product) return res.status(500).send('The product cannot be created');
 
-    res.send(product);
+    let result = await Product.findById(product._id).populate('category');
+
+    res.send(result);
 });
 
 router.put('/:id' /*, uploadOptions.single('image')*/, async (req, res) => {
@@ -125,7 +127,7 @@ router.put('/:id' /*, uploadOptions.single('image')*/, async (req, res) => {
             isFeatured: req.body.isFeatured,
         },
         { new: true }
-    );
+    ).populate('category');
 
     if (!updatedProduct)
         return res.status(500).send('the product cannot be updated!');
