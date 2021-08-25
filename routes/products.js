@@ -78,6 +78,9 @@ router.post(`/` /*, uploadOptions.single('image')*/, async (req, res) => {
         rating: req.body.rating,
         numReviews: req.body.numReviews,
         isFeatured: req.body.isFeatured,
+        concentration: req.body.concentration,
+        volume: req.body.volume,
+        origin: req.body.origin,
     });
 
     product = await product.save();
@@ -125,6 +128,9 @@ router.put('/:id' /*, uploadOptions.single('image')*/, async (req, res) => {
             rating: req.body.rating,
             numReviews: req.body.numReviews,
             isFeatured: req.body.isFeatured,
+            concentration: req.body.concentration,
+            volume: req.body.volume,
+            origin: req.body.origin,
         },
         { new: true }
     ).populate('category');

@@ -52,6 +52,18 @@ const productSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    concentration: {
+        type: String,
+        default: '',
+    },
+    volume: {
+        type: String,
+        default: '',
+    },
+    origin: {
+        type: String,
+        default: '',
+    },
     dateCreated: {
         type: Date,
         default: Date.now,
