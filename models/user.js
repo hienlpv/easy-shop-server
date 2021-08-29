@@ -23,25 +23,28 @@ const userSchema = new mongoose.Schema({
     },
     street: {
         type: String,
-        default: ''
+        default: '',
     },
     apartment: {
         type: String,
-        default: ''
+        default: '',
     },
-    zip :{
+    zip: {
         type: String,
-        default: ''
+        default: '',
     },
     city: {
         type: String,
-        default: ''
+        default: '',
     },
     country: {
         type: String,
-        default: ''
-    }
-
+        default: '',
+    },
+    expoPushToken: {
+        type: String,
+        default: '',
+    },
 });
 
 userSchema.virtual('id').get(function () {

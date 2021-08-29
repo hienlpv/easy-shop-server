@@ -66,6 +66,7 @@ router.put('/:id', async (req, res) => {
             zip: req.body.zip,
             city: req.body.city,
             country: req.body.country,
+            expoPushToken: req.body.expoPushToken,
         },
         { new: true }
     );
