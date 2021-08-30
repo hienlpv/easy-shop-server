@@ -83,7 +83,7 @@ router.post('/', async (req, res) => {
 
     if (!order) return res.status(400).send('the order cannot be created!');
 
-    let user = await User.find({ isAdmin: true });
+    let user = await User.findOne({ isAdmin: true });
     if (user.expoPushToken !== '')
         sendNotification(user.expoPushToken, 'Có một đơn hàng mới !');
 

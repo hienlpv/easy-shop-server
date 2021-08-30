@@ -6,7 +6,6 @@ const cors = require('cors');
 require('dotenv/config');
 const authJwt = require('./helpers/jwt');
 const errorHandler = require('./helpers/error-handler');
-const sendNotification = require('./utilities/ExpoPushNotifications');
 
 app.use(cors());
 app.options('*', cors());
