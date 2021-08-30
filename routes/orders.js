@@ -101,7 +101,7 @@ router.put('/:id', async (req, res) => {
 
     if (!order) return res.status(400).send('the order cannot be update!');
 
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(order.user);
     if (user.expoPushToken !== '')
         sendNotification(
             user.expoPushToken,
