@@ -17,7 +17,6 @@ const orderSchema = mongoose.Schema({
     },
     city: {
         type: String,
-        required: true,
     },
     zip: {
         type: String,
