@@ -100,12 +100,14 @@ router.put('/:id', async (req, res) => {
     );
 
     if (!order) return res.status(400).send('the order cannot be update!');
+
     const user = await User.findById(req.params.id);
     if (user.expoPushToken !== '')
         sendNotification(
             user.expoPushToken,
             'Trạng thái đơn hàng của bạn đã được cập nhật !'
         );
+
     res.send(order);
 });
 
