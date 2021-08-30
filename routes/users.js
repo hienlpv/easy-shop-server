@@ -25,6 +25,9 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+    let exitsUser = await User.findOne({ email: req.body.email });
+    if (exitsUser) return res.status(400).send('email này đã được đăng ký!');
+
     let user = new User({
         name: req.body.name,
         email: req.body.email,
@@ -39,7 +42,7 @@ router.post('/', async (req, res) => {
     });
     user = await user.save();
 
-    if (!user) return res.status(400).send('the user cannot be created!');
+    if (!user) return res.status(400).send('không thể tạo người dùng này');
 
     res.send(user);
 });
