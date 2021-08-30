@@ -1,7 +1,9 @@
 const { Order } = require('../models/order');
 const { Product } = require('../models/product');
-const express = require('express');
+const { User } = require('../models/user');
 const { OrderItem } = require('../models/order-item');
+const express = require('express');
+const sendNotification = require('../utilities/ExpoPushNotifications');
 const router = express.Router();
 
 router.get(`/`, async (req, res) => {
@@ -80,6 +82,10 @@ router.post('/', async (req, res) => {
     order = await order.save();
 
     if (!order) return res.status(400).send('the order cannot be created!');
+
+    let user = await User.find({ isAdmin: true });
+    if (user.expoPushToken !== '')
+        sendNotification(user.expoPushToken, 'Có một đơn hàng mới !');
 
     res.send(order);
 });

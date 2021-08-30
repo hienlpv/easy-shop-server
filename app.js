@@ -6,6 +6,7 @@ const cors = require('cors');
 require('dotenv/config');
 const authJwt = require('./helpers/jwt');
 const errorHandler = require('./helpers/error-handler');
+const sendNotification = require('./utilities/ExpoPushNotifications');
 
 app.use(cors());
 app.options('*', cors());
@@ -46,12 +47,12 @@ mongoose
     });
 
 //Server
-// app.listen(3000, () => {
-//     console.log('server is running http://localhost:3000');
-// });
+app.listen(3000, () => {
+    console.log('server is running http://localhost:3000');
+});
 
 //Production
-var server = app.listen(process.env.PORT || 3000, function () {
-    var port = server.address().port;
-    console.log(`Express is working on port ${port}`);
-});
+// var server = app.listen(process.env.PORT || 3000, function () {
+//     var port = server.address().port;
+//     console.log(`Express is working on port ${port}`);
+// });
