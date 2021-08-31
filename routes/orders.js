@@ -111,7 +111,7 @@ router.put('/:id', async (req, res) => {
     }
     // Increase product countInStock
     if (req.body.status === 'Cancel') {
-        Promise.all(
+        await Promise.all(
             order.orderItems.forEach(async (item) => {
                 let product = await Product.findById(item.product);
                 await Product.findByIdAndUpdate(item.product, {
