@@ -113,9 +113,10 @@ router.put('/:id', async (req, res) => {
     if (req.body.status === 'Cancel') {
         await Promise.all(
             order.orderItems.forEach(async (item) => {
-                let product = await Product.findById(item.product);
-                await Product.findByIdAndUpdate(item.product, {
-                    countInStock: product.countInStock + item.quantity,
+                let orderItem = await OrderItem.findById(item);
+                let product = await Product.findById(orderItem.product);
+                await Product.findByIdAndUpdate(orderItem.product, {
+                    countInStock: product.countInStock + orderItem.quantity,
                 });
             })
         );
