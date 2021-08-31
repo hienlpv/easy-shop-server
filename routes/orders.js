@@ -101,13 +101,25 @@ router.put('/:id', async (req, res) => {
     );
 
     if (!order) return res.status(400).send('the order cannot be update!');
-
+    // Send Notification
     const user = await User.findById(order.user);
-    if (user.expoPushToken !== '')
+    if (user.expoPushToken !== '') {
         sendNotification(
             user.expoPushToken,
             'Trạng thái đơn hàng của bạn đã được cập nhật !'
         );
+    }
+    // Increase product countInStock
+    if (req.body.status === 'Cancel') {
+        Promise.all(
+            order.orderItems.forEach(async (item) => {
+                let product = await Product.findById(item.product);
+                await Product.findByIdAndUpdate(item.product, {
+                    countInStock: product.countInStock + item.quantity,
+                });
+            })
+        );
+    }
 
     res.send(order);
 });
