@@ -111,15 +111,13 @@ router.put('/:id', async (req, res) => {
     }
     // Increase product countInStock
     if (req.body.status === 'Cancel') {
-        await Promise.all(
-            order.orderItems.forEach(async (item) => {
-                let orderItem = await OrderItem.findById(item);
-                let product = await Product.findById(orderItem.product);
-                await Product.findByIdAndUpdate(orderItem.product, {
-                    countInStock: product.countInStock + orderItem.quantity,
-                });
-            })
-        );
+        order.orderItems.forEach(async (item) => {
+            let orderItem = await OrderItem.findById(item);
+            let product = await Product.findById(orderItem.product);
+            await Product.findByIdAndUpdate(orderItem.product, {
+                countInStock: product.countInStock + orderItem.quantity,
+            });
+        });
     }
 
     res.send(order);
