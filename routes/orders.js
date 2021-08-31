@@ -95,6 +95,7 @@ router.put('/:id', async (req, res) => {
         req.params.id,
         {
             status: req.body.status,
+            reasonCancel: req.body.reasonCancel,
         },
         { new: true }
     );

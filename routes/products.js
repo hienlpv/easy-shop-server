@@ -38,7 +38,7 @@ router.get(`/`, async (req, res) => {
 
     const productList = await Product.find(filter)
         .populate('category')
-        .sort({ dateOrdered: -1 });
+        .sort({ dateCreated: -1 });
 
     if (!productList) {
         res.status(500).json({ success: false });

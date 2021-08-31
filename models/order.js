@@ -33,6 +33,10 @@ const orderSchema = mongoose.Schema({
         required: true,
         default: 'Pending',
     },
+    reasonCancel: {
+        type: String,
+        default: '',
+    },
     totalPrice: {
         type: Number,
     },
