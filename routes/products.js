@@ -1,6 +1,8 @@
-const { Product } = require('../models/product');
 const express = require('express');
+const { Product } = require('../models/product');
 const { Category } = require('../models/category');
+const { Order } = require('../models/order');
+const { OrderItem } = require('../models/order-item');
 const router = express.Router();
 const mongoose = require('mongoose');
 // const multer = require('multer');
@@ -141,7 +143,23 @@ router.put('/:id' /*, uploadOptions.single('image')*/, async (req, res) => {
     res.send(updatedProduct);
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
+    try {
+        const orders = await Order.find({});
+        const ordersFiltered = orders.filter(
+            (i) => i.status !== 'Done' && i.status !== 'Cancel'
+        );
+        ordersFiltered.forEach(async (orders) => {
+            orders.orderItems.forEach(async (orderItem) => {
+                const item = await OrderItem.findById(orderItem);
+                if (item.product.toString() === req.params.id)
+                    throw new Error();
+            });
+        });
+    } catch (err) {
+        return res.status(500).json({ success: false, error: err });
+    }
+
     Product.findByIdAndRemove(req.params.id)
         .then((product) => {
             if (product) {
