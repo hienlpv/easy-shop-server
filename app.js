@@ -36,6 +36,7 @@ mongoose
     .connect(process.env.CONNECTION_STRING, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useFindAndModify: true,
         dbName: 'eshop-database',
     })
     .then(() => {
@@ -46,12 +47,12 @@ mongoose
     });
 
 //Server
-// app.listen(3000, () => {
-//     console.log('server is running http://localhost:3000');
-// });
+app.listen(3000, () => {
+    console.log('server is running http://localhost:3000');
+});
 
 //Production
-var server = app.listen(process.env.PORT || 3000, function () {
-    var port = server.address().port;
-    console.log(`Express is working on port ${port}`);
-});
+// var server = app.listen(process.env.PORT || 3000, function () {
+//     var port = server.address().port;
+//     console.log(`Express is working on port ${port}`);
+// });

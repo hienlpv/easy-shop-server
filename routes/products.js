@@ -144,21 +144,31 @@ router.put('/:id' /*, uploadOptions.single('image')*/, async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-    try {
-        const orders = await Order.find({});
-        const ordersFiltered = orders.filter(
-            (i) => i.status !== 'Done' && i.status !== 'Cancel'
-        );
-        ordersFiltered.forEach(async (orders) => {
-            orders.orderItems.forEach(async (orderItem) => {
-                const item = await OrderItem.findById(orderItem);
-                if (item.product.toString() === req.params.id)
-                    throw new Error();
-            });
-        });
-    } catch (err) {
-        return res.status(500).json({ success: false, error: err });
+    const orders = await Order.find({});
+    const ordersFiltered = orders.filter(
+        (i) => i.status !== 'Done' && i.status !== 'Cancel'
+    );
+    // let result = await Promise.all(
+    //     ordersFiltered.map(async (orders) => {
+    //         return await orders.orderItems.map(async (orderItem) => {
+    //             const item = await OrderItem.findById(orderItem);
+    //             return { isMatch: item.product.toString() === req.params.id };
+    //         });
+    //     })
+    // );
+
+    let find = false;
+
+    for (let i = 0; i < ordersFiltered.length; i++) {
+        const orders = ordersFiltered[i].orderItems;
+        for (let j = 0; j < orders.length; j++) {
+            const element = orders[j];
+            const item = await OrderItem.findById(element);
+            if (item.product.toString() === req.params.id) find = true;
+        }
     }
+
+    if (find) return res.status(500).send();
 
     Product.findByIdAndRemove(req.params.id)
         .then((product) => {
@@ -168,9 +178,10 @@ router.delete('/:id', async (req, res) => {
                     message: 'the product is deleted!',
                 });
             } else {
-                return res
-                    .status(404)
-                    .json({ success: false, message: 'product not found!' });
+                return res.status(404).json({
+                    success: false,
+                    message: 'product not found!',
+                });
             }
         })
         .catch((err) => {
