@@ -41,6 +41,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: '',
     },
+    dateCreated: {
+        type: Date,
+        default: Date.now,
+    },
     expoPushToken: {
         type: String,
         default: '',
