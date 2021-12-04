@@ -145,9 +145,7 @@ router.put('/:id' /*, uploadOptions.single('image')*/, async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     const orders = await Order.find({});
-    const ordersFiltered = orders.filter(
-        (i) => i.status !== 'Done' && i.status !== 'Cancel'
-    );
+    const ordersFiltered = orders.filter((i) => i.status !== 'Cancel');
     // let result = await Promise.all(
     //     ordersFiltered.map(async (orders) => {
     //         return await orders.orderItems.map(async (orderItem) => {
